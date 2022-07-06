@@ -14,7 +14,8 @@ class EntrypointClass():
     def entrypoint_threaded_method(self):
         while True:
             if self.entrypoint_thread_queue:
-                self.entrypoint_thread_queue.popleft()
+                element = self.entrypoint_thread_queue.popleft()
+                print(element)
             time.sleep(0.1)
 
     def add_to_queue(self):

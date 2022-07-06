@@ -1,12 +1,28 @@
 import time
 import threading
 
+from unittest.mock import patch, Mock
 from unittest import TestCase
 
 from application.entrypoint.entrypoint import EntrypointClass
 
 class EntrypointTest(TestCase):
-    def test_main_thread(self):
+    @patch(
+        "application.entrypoint.entrypoint.module_level_variable",
+        "testing variable"
+    )
+    @Mock(
+        "application.feature_a.feature.RandomFeature.threading.Thread.start",
+        return_value=None
+    )
+    def test_main_thread(
+        self,
+        feature_thread_start_mock
+    ):
+
+        # This is just to print out debug statements.
+        self.assertTrue(False)
+
         entrypoint_instance = EntrypointClass()
         self.assertEqual(len(entrypoint_instance.entrypoint_thread_queue), 0)
 
@@ -22,6 +38,3 @@ class EntrypointTest(TestCase):
         t.join(timeout=2)
 
         self.assertEqual(len(entrypoint_instance.entrypoint_thread_queue), 0)
-
-        # This is just to print out debug statements.
-        self.assertTrue(False)
